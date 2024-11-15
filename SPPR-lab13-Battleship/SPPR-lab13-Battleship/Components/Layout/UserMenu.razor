@@ -1,0 +1,42 @@
+﻿@using Entities
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Components.Authorization
+@inject UserManager<User> UserManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject PersistentComponentState PersistentState
+
+@* style="padding: 5px 10px; border: 1px solid grey; border-radius: 10px" *@
+<AuthorizeView>
+    <Authorized>
+        @if (user != null)
+        {
+            <NavLink href="/profile">
+                <button id="user-menu-data" class="btn btn-secondary" style="border-radius: 15px">@user.UserName (id: @user.Id)</button>
+            </NavLink>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>Вы не авторизованы!</p>
+        <NavLink href="/account/login">
+            <button class="btn btn-primary">Login</button>
+        </NavLink>  
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    private User user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var currentUser = authState.User;
+
+        if (currentUser.Identity.IsAuthenticated)
+        {
+            user = await UserManager.GetUserAsync(currentUser);
+        }
+    }
+    
+}
+

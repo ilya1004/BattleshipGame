@@ -1,0 +1,79 @@
+﻿@page "/account/login"
+@rendermode InteractiveWebAssembly
+@using System.ComponentModel.DataAnnotations
+@using System.Net.Http.Json
+@using System.Text.Json
+@inject NavigationManager Navigation
+
+<h3>Вход</h3>
+
+<EditForm Model="Model" OnValidSubmit="HandleLogin" FormName="loginForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="Model.Email" />
+        <ValidationMessage For="@(() => Model.Email)" />
+    </div>
+
+    <div>
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="Model.Password" type="password" />
+        <ValidationMessage For="@(() => Model.Password)" />
+    </div>
+
+    <button type="submit">Войти</button>
+</EditForm>
+
+@if (loginError != null)
+{
+    <div class="alert alert-danger">@loginError</div>
+}
+
+@code {
+    [SupplyParameterFromForm]
+    public LoginModel Model { get; set; }
+
+    private string? loginError;
+
+    protected override void OnInitialized()
+    {
+        Model ??= new();
+    }
+
+    private async Task HandleLogin()
+    {
+        try
+        {
+            using var httpClient = new HttpClient();
+
+            var json = JsonSerializer.Serialize(Model);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync($"https://localhost:7147/login?useCookies=true&useSessionCookies=true", content);
+            if (response.IsSuccessStatusCode)
+            {
+                Navigation.NavigateTo("/");
+            }
+            else
+            {
+                loginError = "Ошибка входа. Пожалуйста, попробуйте снова.";
+            }
+        }
+        catch (Exception ex)
+        {
+            loginError = $"Ошибка: {ex.Message}";
+        }
+    }
+
+    public class LoginModel
+    {
+        [Required(ErrorMessage = "Электронная почта обязательна")]
+        [EmailAddress(ErrorMessage = "Некорректный адрес электронной почты")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Пароль обязателен")]
+        public string Password { get; set; } = string.Empty;
+    }
+}

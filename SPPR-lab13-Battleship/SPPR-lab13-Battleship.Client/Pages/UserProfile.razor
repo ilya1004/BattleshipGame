@@ -1,0 +1,47 @@
+﻿@page "/profile"
+@rendermode InteractiveWebAssembly
+@using Entities
+@using Newtonsoft.Json;
+@inject NavigationManager Navigation
+
+@if (user != null)
+{
+    <div style="display: flex; border: 1px solid grey; border-radius: 20px; padding: 20px">
+        <img src="./UserAvatars/@user.AvatarPath" style="border-radius: 20px; max-width: 500px; max-height: 600px; margin: 0px 30px 0px 0px" />
+        <div>
+            <p style="font-size: 32px; font-weight: bold">@user.UserName</p>
+            <p style="font-size: 20px">Id: @user.Id</p>
+            <p style="font-size: 20px">Email: @user.Email</p>
+        </div>
+    </div>
+}
+
+@code {
+
+    private UserClient? user = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            using var client = new HttpClient();
+            var response = await client.GetAsync("https://localhost:7147/api/Account/GetCurrentInfo");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var data = JsonConvert.DeserializeObject<UserClient>(content);
+
+            if (data != null) {
+                user = data;
+                StateHasChanged();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+    }
+
+}

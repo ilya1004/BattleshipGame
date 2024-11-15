@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPPR-lab13-Battleship", "SPPR-lab13-Battleship\SPPR-lab13-Battleship\SPPR-lab13-Battleship.csproj", "{C7BEE29B-9DDD-4D9F-BE3D-2B699ABA3920}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPPR-lab13-Battleship.Client", "SPPR-lab13-Battleship\SPPR-lab13-Battleship.Client\SPPR-lab13-Battleship.Client.csproj", "{41159F95-6505-4A2B-B31A-A72598CBFEE8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7BEE29B-9DDD-4D9F-BE3D-2B699ABA3920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7BEE29B-9DDD-4D9F-BE3D-2B699ABA3920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7BEE29B-9DDD-4D9F-BE3D-2B699ABA3920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7BEE29B-9DDD-4D9F-BE3D-2B699ABA3920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41159F95-6505-4A2B-B31A-A72598CBFEE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41159F95-6505-4A2B-B31A-A72598CBFEE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41159F95-6505-4A2B-B31A-A72598CBFEE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41159F95-6505-4A2B-B31A-A72598CBFEE8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C7AE466-D12C-4128-9589-84A838B3AEB2}
+	EndGlobalSection
+EndGlobal

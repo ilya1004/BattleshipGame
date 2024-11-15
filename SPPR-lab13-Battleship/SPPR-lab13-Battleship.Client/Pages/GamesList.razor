@@ -1,0 +1,184 @@
+﻿@page "/games-list"
+@rendermode InteractiveWebAssembly
+@using Entities
+@using Microsoft.AspNetCore.SignalR.Client
+@using Newtonsoft.Json
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+
+@if (User != null) 
+{
+    <h3>Games list</h3>
+    @* <p>You: @User.UserName</p> *@
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <input type="text" @bind="gameName" style="height: 38px; border-radius: 5px" placeholder="Game name" />
+        <button @onclick="CreateGame" class="btn btn-primary">Create game</button>
+        <button @onclick="RemoveGame" class="btn btn-secondary">Remove game</button>
+    </div>
+
+    if (!string.IsNullOrEmpty(errorMessage)) 
+    {
+        <div style="margin: 10px 0px 0px 0px">
+            <h4>Error:</h4>
+            <span style="font-size: 18px; color: red">@errorMessage</span>
+        </div>
+    }
+
+    if (activeGames.Any(game => game.PlayerId1 == User.Id)) 
+    {
+        var yourGame = activeGames.FirstOrDefault(game => game.PlayerId1 == User.Id);
+
+        <div style="font-size: 20px; margin: 10px 0px 10px 0px">
+            Your game:
+        </div>
+        <div style="border: solid 1px grey; border-radius: 20px; display: flex; max-width: 400px; padding: 5px; margin: 0px 0px 10px 0px ">
+            <img style="width: 120px; height: 120px; border-radius: 20px; margin: 0px 20px 0px 0px" src="./Images/Battleship-icon-game-square.png" />
+            <div style="padding: 5px 0px">
+                <div style="font-size: 22px; margin: 0px 0px 5px 0px">
+                    @yourGame!.Name
+                </div>
+            </div>
+        </div>
+    }
+
+    <h4>Active games:</h4>
+    <section style="display: flex; flex-direction: column; gap: 10px">
+        @foreach (var game in activeGames)
+        {
+            @if (game.PlayerId1 != User.Id)
+            {
+                <div style="border: solid 1px grey; border-radius: 20px; display: flex; max-width: 400px; padding: 5px">
+                    <img style="width: 120px; height: 120px; border-radius: 20px; margin: 0px 20px 0px 0px" src="./Images/Battleship-icon-game-square.png" />
+                    <div style="padding: 5px 0px">
+                        <div style="font-size: 18px; margin: 0px 0px 5px 0px">
+                            @game.Name
+                        </div>
+                        <div style="font-size: 18px; margin: 0px 0px 10px 0px">
+                            Your opponent: @game.PlayerUsername1
+                        </div>
+                        <button class="btn btn-primary" @onclick="() => ConnectToGame(game.Id)">
+                            Connect to game
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+    </section>
+
+}
+
+
+@code {
+
+    private HubConnection? hubConnection;
+
+    private string? gameName;
+
+    private string? errorMessage = null;
+
+    private List<GameEntity> activeGames = [];
+
+    public UserClient? User { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            using var client = new HttpClient();
+            var response = await client.GetAsync("https://localhost:7147/api/Account/GetCurrentInfo");
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var data = JsonConvert.DeserializeObject<UserClient>(content);
+
+            if (data != null)
+            {
+                User = data;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+            // Navigation.NavigateTo("/account/login");
+        }
+
+
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/gamesListHub"))
+            .Build();
+
+        // hubConnection.On<string>("GameCreated", (gameName) =>
+        // {
+        //     _activeGames.Add(gameName);
+        //     InvokeAsync(StateHasChanged);
+        // });
+
+        hubConnection.On<List<GameEntity>>("ReceiveActiveGames", (games) =>
+        {
+            activeGames = games;
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+        await GetActiveGames();
+    }
+
+    private async Task CreateGame()
+    {
+        if (string.IsNullOrWhiteSpace(gameName)) {
+            errorMessage = "You can't create game with empty name.";
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        if (activeGames.Any(game => game.PlayerId1 == User!.Id)) {
+            errorMessage = "You can't create another game.";
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        if (hubConnection is not null && User is not null)
+        {
+            await hubConnection.InvokeAsync("CreateGame", User.Id, User.UserName, gameName);
+            await GetActiveGames();
+        }
+    }
+
+    private async Task RemoveGame()
+    {
+        if (hubConnection is not null && User is not null)
+        {
+            var gameToRemove = activeGames.FirstOrDefault(game => game.PlayerId1 == User.Id);
+            await hubConnection.InvokeAsync("RemoveGame", gameToRemove!.Id);
+            await GetActiveGames();
+        }
+    }
+
+    private async Task GetActiveGames()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.InvokeAsync("GetActiveGames");
+        }
+    }
+
+    private async Task ConnectToGame(int gameId) {
+        if (hubConnection is not null && User is not null)
+        {
+            await hubConnection.InvokeAsync("StartGame", gameId, User.Id, User.UserName);
+        }
+    }
+
+    public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}
