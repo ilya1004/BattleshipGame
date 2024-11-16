@@ -1,0 +1,248 @@
+﻿@page "/game/{gameId:int}"
+@inject IJSRuntime JS
+
+<h3>Game</h3>
+
+<div style="display: flex; flex-direction: row">
+    <div style="width: 400px">
+        <div class="port-instruction">Перетащите на поле и кликните, чтобы повернуть:</div>
+        <div class="port-lines">
+            <div class="port-line">
+                <div class="port-ship port-ship-battleship">
+                    <div id="ship-4" data-length="4" class="ship ship-battleship ship-draggable" data-js-dnd>
+                    </div>
+                </div>
+            </div>
+            <div class="port-line">
+                <div class="port-ship" style="width: 6em; height: 2em; padding-right: 2px; padding-bottom: 0px;">
+                    <div data-id="HIL94gCGqMwB" data-length="3" data-position="h" class="ship-box ship-box__h ui-draggable ship-box__draggable" style="width: 6em; height: 2em; padding-right: 2px; padding-bottom: 0px; left: 0px; top: 0px; margin: -2px;">
+                    </div>
+                </div>
+                <div class="port-ship" style="width: 6em; height: 2em; padding-right: 2px; padding-bottom: 0px;">
+                    <div data-id="w4zctUm4iRCr" data-length="3" data-position="h" class="ship-box ship-box__h ui-draggable ship-box__draggable" style="width: 6em; height: 2em; padding-right: 2px; padding-bottom: 0px;">
+                    </div>
+                </div>
+            </div>
+            <div class="port-line clearfix">
+                <div class="port-ship" style="width: 4em; height: 2em; padding-right: 1px; padding-bottom: 0px;">
+                    <div data-id="11gF9NPHUZN0" data-length="2" data-position="h" class="ship-box ship-box__h ui-draggable ship-box__draggable" style="width: 4em; height: 2em; padding-right: 1px; padding-bottom: 0px;">
+                    </div>
+                </div>
+                <div class="port-ship" style="width: 4em; height: 2em; padding-right: 1px; padding-bottom: 0px;">
+                    <div data-id="L6Axy7P0agbH" data-length="2" data-position="h" class="ship-box ship-box__h ui-draggable ship-box__draggable" style="width: 4em; height: 2em; padding-right: 1px; padding-bottom: 0px;">
+                    </div>
+                </div>
+                <div class="port-ship" style="width: 4em; height: 2em; padding-right: 1px; padding-bottom: 0px;">
+                    <div data-id="rc1hXVuU85j3" data-length="2" data-position="h" class="ship-box ship-box__h ui-draggable ship-box__draggable" style="width: 4em; height: 2em; padding-right: 1px; padding-bottom: 0px; left: 0px; top: 0px; margin: -2px;">
+                    </div>
+                </div>
+            </div>
+            <div class="port-line clearfix">
+                <div class="port-ship" style="width: 2em; height: 2em; padding-right: 0px; padding-bottom: 0px;">
+                    <div data-id="vw2J2G1vZ765" data-length="1" data-position="h" class="ship-box ship-box__h ui-draggable ship-box__draggable" style="width: 2em; height: 2em; padding-right: 0px; padding-bottom: 0px;">
+                    </div>
+                </div>
+                <div class="port-ship" style="width: 2em; height: 2em; padding-right: 0px; padding-bottom: 0px;">
+                    <div data-id="SkH3oylThXlR" data-length="1" data-position="h" class="ship-box ship-box__h ui-draggable ship-box__draggable" style="width: 2em; height: 2em; padding-right: 0px; padding-bottom: 0px; left: 0px; top: 0px; margin: -2px;">
+                    </div>
+                </div>
+                <div class="port-ship" style="width: 2em; height: 2em; padding-right: 0px; padding-bottom: 0px;">
+                    <div data-id="Lr40TColzaed" data-length="1" data-position="h" class="ship-box ship-box__h ui-draggable ship-box__draggable" style="width: 2em; height: 2em; padding-right: 0px; padding-bottom: 0px;">
+                    </div>
+                </div>
+                <div id="port-ship-1-4" class="port-ship" style="width: 2em; height: 2em; padding-right: 0px; padding-bottom: 0px;">
+                    <div id="ship-1-4" data-length="1" class="ship ship-boat ship-draggable" data-js-dnd>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-wrapper" id="table-wrapper-board">
+        <table class="table-numbers">
+            <thead>
+                <tr style="height: 30px; border: 1px solid white; border-bottom: 1px solid gray">
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-top: 1px solid grey">
+                    <th class="number-row">1</th>
+                </tr>
+                <tr>
+                    <th class="number-row">2</th>
+                </tr>
+                <tr>
+                    <th class="number-row">3</th>
+                </tr>
+                <tr>
+                    <th class="number-row">4</th>
+                </tr>
+                <tr>
+                    <th class="number-row">5</th>
+                </tr>
+                <tr>
+                    <th class="number-row">6</th>
+                </tr>
+                <tr>
+                    <th class="number-row">7</th>
+                </tr>
+                <tr>
+                    <th class="number-row">8</th>
+                </tr>
+                <tr>
+                    <th class="number-row">9</th>
+                </tr>
+                <tr style="border-bottom: 1px solid grey">
+                    <th class="number-row">10</th>
+                </tr>
+            </tbody>
+        </table>
+        <table class="battleship">
+            <thead>
+                <tr>
+                    <th class="header-letter">А</th>
+                    <th class="header-letter">Б</th>
+                    <th class="header-letter">В</th>
+                    <th class="header-letter">Г</th>
+                    <th class="header-letter">Д</th>
+                    <th class="header-letter">Е</th>
+                    <th class="header-letter">Ж</th>
+                    <th class="header-letter">З</th>
+                    <th class="header-letter">И</th>
+                    <th class="header-letter">К</th>
+                </tr>
+            </thead>
+            <tbody id="cells-grid">
+                <tr>
+                    <td class="cell-base cell-empty" data-x="0" data-y="0" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="1" data-y="0" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="2" data-y="0" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="3" data-y="0" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="4" data-y="0" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="5" data-y="0" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="6" data-y="0" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="7" data-y="0" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="8" data-y="0" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="9" data-y="0" data-js-cell></td>
+                </tr>
+                <tr>
+                    <td class="cell-base cell-empty" data-x="0" data-y="1" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="1" data-y="1" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="2" data-y="1" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="3" data-y="1" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="4" data-y="1" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="5" data-y="1" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="6" data-y="1" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="7" data-y="1" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="8" data-y="1" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="9" data-y="1" data-js-cell></td>
+                </tr>
+                <tr>
+                    <td class="cell-base cell-empty" data-x="0" data-y="2" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="1" data-y="2" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="2" data-y="2" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="3" data-y="2" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="4" data-y="2" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="5" data-y="2" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="6" data-y="2" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="7" data-y="2" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="8" data-y="2" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="9" data-y="2" data-js-cell></td>
+                </tr>
+                <tr>
+                    <td class="cell-base cell-empty" data-x="0" data-y="3" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="1" data-y="3" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="2" data-y="3" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="3" data-y="3" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="4" data-y="3" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="5" data-y="3" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="6" data-y="3" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="7" data-y="3" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="8" data-y="3" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="9" data-y="3" data-js-cell></td>
+                </tr>
+                <tr>
+                    <td class="cell-base cell-empty" data-x="0" data-y="4" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="1" data-y="4" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="2" data-y="4" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="3" data-y="4" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="4" data-y="4" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="5" data-y="4" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="6" data-y="4" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="7" data-y="4" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="8" data-y="4" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="9" data-y="4" data-js-cell></td>
+                </tr>
+                <tr>
+                    <td class="cell-base cell-empty" data-x="0" data-y="5" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="1" data-y="5" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="2" data-y="5" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="3" data-y="5" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="4" data-y="5" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="5" data-y="5" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="6" data-y="5" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="7" data-y="5" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="8" data-y="5" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="9" data-y="5" data-js-cell></td>
+                </tr>
+                <tr>
+                    <td class="cell-base cell-empty" data-x="0" data-y="6" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="1" data-y="6" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="2" data-y="6" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="3" data-y="6" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="4" data-y="6" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="5" data-y="6" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="6" data-y="6" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="7" data-y="6" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="8" data-y="6" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="9" data-y="6" data-js-cell></td>
+                </tr>
+                <tr>
+                    <td class="cell-base cell-empty" data-x="0" data-y="7" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="1" data-y="7" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="2" data-y="7" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="3" data-y="7" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="4" data-y="7" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="5" data-y="7" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="6" data-y="7" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="7" data-y="7" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="8" data-y="7" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="9" data-y="7" data-js-cell></td>
+                </tr>
+                <tr>
+                    <td class="cell-base cell-empty" data-x="0" data-y="8" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="1" data-y="8" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="2" data-y="8" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="3" data-y="8" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="4" data-y="8" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="5" data-y="8" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="6" data-y="8" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="7" data-y="8" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="8" data-y="8" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="9" data-y="8" data-js-cell></td>
+                </tr>
+                <tr>
+                    <td class="cell-base cell-empty" data-x="0" data-y="9" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="1" data-y="9" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="2" data-y="9" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="3" data-y="9" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="4" data-y="9" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="5" data-y="9" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="6" data-y="9" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="7" data-y="9" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="8" data-y="9" data-js-cell></td>
+                    <td class="cell-base cell-empty" data-x="9" data-y="9" data-js-cell></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p id="message">Наведите курсор на клетку.</p>
+
+@code {
+
+    [Parameter]
+    public int GameId { get; set; }
+}

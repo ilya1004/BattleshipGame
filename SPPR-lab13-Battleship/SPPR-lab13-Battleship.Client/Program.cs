@@ -5,11 +5,6 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.Services.AddCascadingAuthenticationState();
 
-//builder.Services.AddRazorComponents()
-//    .AddInteractiveWebAssemblyComponents();
-
-//builder.Services.AddTransient<PersistentAuthenticationStateProvider>(;
-
 //builder.Services.AddHttpClient("client");
 
 builder.Services.AddApiAuthorization();

@@ -1,6 +1,6 @@
 ﻿namespace Entities;
 
-internal class Cell
+public class Cell
 {
     public int CoordX { get; set; }
     public int CoordY { get; set; }

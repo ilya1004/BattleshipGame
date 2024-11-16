@@ -80,4 +80,11 @@ public class AccountController : ControllerBase
 
         return Results.Json(userData);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return Redirect("https://localhost:7147/");
+    }
 }

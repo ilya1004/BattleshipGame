@@ -11,19 +11,19 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    <div>
-        <label for="email">Email</label>
-        <InputText id="email" @bind-Value="Model.Email" />
+    <div style="margin: 10px 0px">
+        <label for="email" style="min-width: 80px;">Email</label>
+        <InputText id="email" @bind-Value="Model.Email" style="border-radius: 5px" />
         <ValidationMessage For="@(() => Model.Email)" />
     </div>
 
-    <div>
-        <label for="password">Password</label>
-        <InputText id="password" @bind-Value="Model.Password" type="password" />
+    <div style="margin: 10px 0px">
+        <label for="password" style="min-width: 80px;">Password</label>
+        <InputText id="password" @bind-Value="Model.Password" type="password" style="border-radius: 5px" />
         <ValidationMessage For="@(() => Model.Password)" />
     </div>
 
-    <button type="submit">Войти</button>
+    <button class="btn btn-primary" type="submit">Войти</button>
 </EditForm>
 
 @if (loginError != null)

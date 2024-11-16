@@ -1,6 +1,6 @@
 ﻿namespace Entities;
 
-internal class Board
+public class Board
 {
     public Cell[,] Cells { get; set; } = new Cell[10, 10]; // 10x10 поле
     public List<Ship> Ships { get; set; } = [];

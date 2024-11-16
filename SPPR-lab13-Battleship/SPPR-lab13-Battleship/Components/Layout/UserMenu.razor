@@ -4,19 +4,22 @@
 @inject UserManager<User> UserManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject PersistentComponentState PersistentState
+@inject NavigationManager Navigation
 
-@* style="padding: 5px 10px; border: 1px solid grey; border-radius: 10px" *@
 <AuthorizeView>
     <Authorized>
         @if (user != null)
         {
+            <form action="api/Account/Logout" method="post" style="display: inline;">
+                <input type="submit" class="btn btn-danger" value="Logout"/>
+            </form>
+
             <NavLink href="/profile">
                 <button id="user-menu-data" class="btn btn-secondary" style="border-radius: 15px">@user.UserName (id: @user.Id)</button>
             </NavLink>
         }
     </Authorized>
     <NotAuthorized>
-        <p>Вы не авторизованы!</p>
         <NavLink href="/account/login">
             <button class="btn btn-primary">Login</button>
         </NavLink>  
@@ -35,6 +38,29 @@
         if (currentUser.Identity.IsAuthenticated)
         {
             user = await UserManager.GetUserAsync(currentUser);
+        }
+    }
+
+    public async Task Logout()
+    {
+        try
+        {
+            using var httpClient = new HttpClient();
+
+            var response = await httpClient.PostAsync($"https://localhost:7147/Account/Logout", null);
+            if (response.IsSuccessStatusCode)
+            {
+                // Navigation.NavigateTo("/");
+                StateHasChanged();
+            }
+            else
+            {
+                await Console.Out.WriteLineAsync($"Ошибка выхода");
+            }
+        }
+        catch (Exception ex)
+        {
+            await Console.Out.WriteLineAsync($"Ошибка: {ex.Message}");
         }
     }
     

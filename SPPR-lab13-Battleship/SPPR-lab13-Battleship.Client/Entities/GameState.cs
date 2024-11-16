@@ -1,6 +1,6 @@
 ﻿namespace Entities;
 
-internal class GameState
+public class GameState
 {
     public Board Player1Board { get; set; } = new Board();
     public Board Player2Board { get; set; } = new Board();

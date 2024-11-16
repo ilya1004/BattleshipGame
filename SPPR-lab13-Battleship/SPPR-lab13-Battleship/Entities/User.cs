@@ -2,7 +2,7 @@
 
 namespace Entities;
 
-internal class User : IdentityUser<int>
+public class User : IdentityUser<int>
 {
     public string? AvatarPath { get; set; } = string.Empty;
 }

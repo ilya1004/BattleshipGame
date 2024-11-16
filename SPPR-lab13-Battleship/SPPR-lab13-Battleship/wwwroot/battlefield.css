@@ -1,0 +1,46 @@
+﻿
+.battleship {
+    border-collapse: collapse;
+    border: 1px solid gray;
+    table-layout: fixed;
+    user-select: none;
+/*    color: cornflowerblue*/
+}
+
+.battleship tbody {
+    border: 1px solid cornflowerblue;
+}
+
+.cell-base {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid cornflowerblue;
+    position: relative;
+}
+
+.cell-empty {
+    background-color: white;
+}
+
+.header-letter {
+    background-color: #f0f0f0;
+    text-align: center;
+    height: 30px;
+}
+
+.number-row {
+    text-align: center;
+    height: 40px;
+    width: 30px;
+    background-color: #f0f0f0;
+    text-align: center;
+    border-left: 1px solid gray;
+    user-select: none;
+}
+
+.table-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}

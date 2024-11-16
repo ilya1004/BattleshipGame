@@ -2,7 +2,7 @@
 
 namespace Entities;
 
-internal class Ship
+public class Ship
 {
     public ShipType Type { get; set; }
     public bool IsDestroyed { get; set; } = false;
